@@ -37,6 +37,10 @@ public class LoginServlet extends HttpServlet {
 			   RequestDispatcher rd=request.getRequestDispatcher("Index.jsp");
 			   rd.forward(request,response);
 			   
+			  }else{
+				System.out.println("<font color=red size=18>LOgin Failed!!!<br>");
+				System.out.println("<a href=Login.jps>Try Again</a>");
+				  
 			  }
 		 } 
 	   catch (Exception e) {

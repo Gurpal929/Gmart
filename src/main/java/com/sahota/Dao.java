@@ -19,9 +19,9 @@ public class Dao {
 	    	 Connection con = null;
 	        try {
 	        	
-	            Class.forName("com.mysql.cj.jdbc.Driver");
+	            Class.forName("com.mysql.jdbc.Driver");
 	           
-	            con = DriverManager.getConnection("jdbc:mysql://root:Root@localhost:3306/add_numbers");
+	            con = DriverManager.getConnection("jdbc:mysql://root:Root@localhost:3306/gmart");
 
 	        } catch (Exception e) {
 	            System.out.println(e);
@@ -37,8 +37,8 @@ public class Dao {
 	    	getConnection();
 	    	
     	//Creating SQL statement
-	    	PreparedStatement ps=con.prepareStatement("select UserName form login where UserName=? pwd=?");
-	   //Setting values to ps statement
+	    	PreparedStatement ps=con.prepareStatement("select UserName from login where UserName=? pwd=?");
+	   //Setting values to ps statement variable
 	    	ps.setString(1,uname);
 	    	ps.setString(2,pass);
 	   //Executing query and storing in ResultSet
@@ -46,15 +46,14 @@ public class Dao {
 	      //checking if ResultSet have data with if condition
 	        if(rs.next())
 	        {
-	        	//Sending control to Index.jsp
+	        	
 	           RS=rs;
 	        }
 	        else {
-	        	//out.println("<font color=red size=18>LOgin Failed!!!<br>");
-	        	//out.println("<a href=Login.jps>Try Again</a>");
+	        	System.out.println("<font color=red size=18>LOgin Failed!!!<br>");
+	        	System.out.println("<a href=Login.jps>Try Again</a>");
+	        	con.close();
 	        }
-	    	
-	    	
 	    	return toString();
 	    	
 	    }
