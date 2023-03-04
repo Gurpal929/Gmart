@@ -11,7 +11,7 @@
 <form action="LoginServlet" method=post>
 <table>
 
-<tr><td>Username</td><td><input type=text name=username></td></tr>
+<tr><td>User Name</td><td><input type=text name=username></td></tr>
 <tr><td>Password</td><td><input type=text name=password></td></tr>
 <tr><td><input type=submit value=Login></td><td><input type=Submit value=Reset></td></tr>
 </table>

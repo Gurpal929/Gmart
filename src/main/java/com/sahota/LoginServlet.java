@@ -1,14 +1,11 @@
 package com.sahota;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 /**
  * Servlet implementation class LoginServlet
@@ -19,25 +16,30 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	   //Creating objects  
+  
+	    
+	   //Creating objects  to access its data
 		Dao dao=new Dao();
-	    GetSet gs=new GetSet();
-	    //Establishing Connection to database
-	    dao.getConnection();
-	    //Getting values from ForntEnd
-	    String uname=gs.getUsername();
-	    String pass=gs.getPassword();
-	    //
-	    PreparedStatement ps;
-		try {
-			ps = dao.con.prepareStatement("select username from gmart username=? and passwors=?");
-			   ps.setString(1, uname);
-			   ps.setString(2, pass);
+	    
+		
+		
+	     try {
+	    	//Getting username and password from user input
+		   String u=request.getParameter("username");
+		   String p=request.getParameter("password");
+		  
+		   //sending username and password to GetSet class for data validation
+		   GetSet getset=new GetSet(u,p);
+		 
+		   //Calling login method of Dao class to Login User with valid data(tested by getters and setters)
+		  dao.login(getset.getUsername(),getset.getPassword());
+		   if(dao.RS.next()) {
+			   RequestDispatcher rd=request.getRequestDispatcher("Index.jsp");
+			   rd.forward(request,response);
 			   
-			    
-			    
-			    
-		} catch (SQLException e) {
+			  }
+		 } 
+	   catch (Exception e) {
 			e.printStackTrace();
 		}
 	 
