@@ -8,56 +8,40 @@ import java.sql.SQLException;
 
 public class Dao {
 
-	   int status=0;
-	   Connection con = null;
-	   ResultSet RS;
-	 
-	   GetSet getset=new GetSet();
-	   
-	   //Creating method to connect to database
-	    public  Connection getConnection() throws ClassNotFoundException, SQLException {
-	    	 Connection con = null;
-	        try {
-	        	
-	            Class.forName("com.mysql.jdbc.Driver");
-	           
-	            con = DriverManager.getConnection("jdbc:mysql://root:Root@localhost:3306/gmart");
+	public Dao() throws ClassNotFoundException, SQLException {
+		this.con = getConnection();
+		System.out.println("Connection created");
+	}
 
-	        } catch (Exception e) {
-	            System.out.println(e);
-	        }
-	        return con;
-	    }
-	    
-	    //Method for logging in user
-	    
-	    public String login(String uname ,String pass) throws SQLException,ClassNotFoundException {
-	    	
-	    	//Starting connection
-	    	getConnection();
-	    	
-    	//Creating SQL statement
-	    	PreparedStatement ps=con.prepareStatement("select UserName from login where UserName=? pwd=?");
-	   //Setting values to ps statement variable
-	    	ps.setString(1,uname);
-	    	ps.setString(2,pass);
-	   //Executing query and storing in ResultSet
-	        ResultSet rs=ps.executeQuery();
-	      //checking if ResultSet have data with if condition
-	        if(rs.next())
-	        {
-	        	
-	           RS=rs;
-	        }
-	        else {
-	        	System.out.println("<font color=red size=18>LOgin Failed!!!<br>");
-	        	System.out.println("<a href=Login.jps>Try Again</a>");
-	        	con.close();
-	        }
-	    	return toString();
-	    	
-	    }
+	private Connection con = null;
+
+	// Creating method to connect to database
+	public Connection getConnection() throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		return DriverManager.getConnection("jdbc:mysql://@localhost:3306/gmart", "root", "Root");
+
+	}
+
+	// Method for logging in user
+
+	public boolean login(User u) throws SQLException {
+		// getConnection();
+		System.out.println("Enterd Login Method");
+		
+		PreparedStatement ps = con.prepareStatement("select UserName from login where UserName=? and pwd=?");
+		ps.setString(1, u.getUsername());
+		ps.setString(2, u.getPassword());
+		ResultSet rs = ps.executeQuery();
+		
+		if (rs.next()) {
+			System.out.println("Enterd Login Method" + rs.getString(" UserName"));
+			return true;
+		} else {
+			return false;
+
+		}
+	}
+
+
 
 }
-
-

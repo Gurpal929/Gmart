@@ -11,7 +11,7 @@ public class GetSet {
 		this.username = uname;
 		this.password = pass;
 	}
-	//Fields to take value from Login.jsp
+	
 	
 	//Getters Setters to validate data entered by user
 	
